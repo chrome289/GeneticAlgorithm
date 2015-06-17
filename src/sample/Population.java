@@ -7,9 +7,6 @@ public class Population {
 
     Individual[] individuals;
 
-    /*
-     * Constructors
-     */
     // Create a population
     public Population(int populationSize, boolean initialise) {
         individuals = new Individual[populationSize];
@@ -40,6 +37,10 @@ public class Population {
         return fittest;
     }
 
+    /*public Individual[] removeIndividual(int index){
+        individuals= (Individual[]) ArrayUtils.remove(individuals,index);
+        return individuals;
+    }*/
     /* Public methods */
     // Get population size
     public int size() {

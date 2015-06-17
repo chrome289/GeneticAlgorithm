@@ -1,4 +1,5 @@
 package sample;
+import org.apache.commons.lang.ArrayUtils;
 
 /**
  * Created by Siddharth on 16-06-2015.
@@ -41,8 +42,16 @@ public class Algorithm {
         // Mutate population
         for (int i = elitismOffset; i < newPopulation.size(); i++) {
             mutate(newPopulation.getIndividual(i));
+            for (int x = 0; x < 64; x++) {
+                if (newPopulation.getIndividual(i).getGene(x) == 'X') {
+                    if (Math.round(Math.random()) % 2 != 0) {
+                        newPopulation.individuals = (Individual[]) ArrayUtils.remove(newPopulation.individuals, i);
+                        GA.dead++;
+                        break;
+                    }
+                }
+            }
         }
-
         return newPopulation;
     }
 
@@ -67,8 +76,20 @@ public class Algorithm {
         for (int i = 0; i < indiv.size(); i++) {
             if (Math.random() <= mutationRate) {
                 // Create random gene
-                byte gene = (byte) Math.round(Math.random());
+                int y = (int) Math.ceil(Math.random() * 100) % 5;
+                char gene;
+                if (y == 0)
+                    gene = 'A';
+                else if (y == 1)
+                    gene = 'C';
+                else if (y == 2)
+                    gene = 'G';
+                else if (y == 3)
+                    gene = 'T';
+                else
+                    gene = 'X';
                 indiv.setGene(i, gene);
+
             }
         }
     }

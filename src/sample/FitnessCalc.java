@@ -5,27 +5,20 @@ package sample;
  */
 public class FitnessCalc {
 
-    static byte[] solution = new byte[64];
+    static char[] solution = new char[64];
 
     /* Public methods */
     // Set a candidate solution as a byte array
-    public static void setSolution(byte[] newSolution) {
+    public static void setSolution(char[] newSolution) {
         solution = newSolution;
     }
 
-    // To make it easier we can use this method to set our candidate solution
-    // with string of 0s and 1s
     static void setSolution(String newSolution) {
-        solution = new byte[newSolution.length()];
+        solution = new char[newSolution.length()];
         // Loop through each character of our string and save it in our byte
         // array
         for (int i = 0; i < newSolution.length(); i++) {
-            String character = newSolution.substring(i, i + 1);
-            if (character.contains("0") || character.contains("1")) {
-                solution[i] = Byte.parseByte(character);
-            } else {
-                solution[i] = 0;
-            }
+                solution[i] = newSolution.charAt(i);
         }
     }
 

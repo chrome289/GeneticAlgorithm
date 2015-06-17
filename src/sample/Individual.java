@@ -6,15 +6,22 @@ package sample;
 public class Individual {
 
     static int defaultGeneLength = 64;
-    private byte[] genes = new byte[defaultGeneLength];
+    private char[] genes = new char[defaultGeneLength];
     // Cache
     private int fitness = 0;
 
     // Create a random individual
     public void generateIndividual() {
         for (int i = 0; i < size(); i++) {
-            byte gene = (byte) Math.round(Math.random());
-            genes[i] = gene;
+            int y= (int) Math.ceil(Math.random()*100)%4;
+            if(y==0)
+                genes[i] = 'A';
+            else if(y==1)
+                genes[i] = 'C';
+            else if(y==2)
+                genes[i] = 'G';
+            else
+                genes[i] = 'T';
         }
     }
 
@@ -24,11 +31,11 @@ public class Individual {
         defaultGeneLength = length;
     }
 
-    public byte getGene(int index) {
+    public char getGene(int index) {
         return genes[index];
     }
 
-    public void setGene(int index, byte value) {
+    public void setGene(int index, char value) {
         genes[index] = value;
         fitness = 0;
     }
