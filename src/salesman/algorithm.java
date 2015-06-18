@@ -6,9 +6,9 @@ package salesman;
 public class algorithm {
 
     public static boolean elitism = true;
-    public static int tournamentsize=5;
+    public static int tournamentsize=30;
     private static int noOfCities=100;
-    private static int mutationRate=80;
+    public static float mutationRate=0.010f;
 
     public static population evolve(population pop) {
         population newpop = new population(pop.size(), false);
@@ -28,8 +28,8 @@ public class algorithm {
     }
 
     private static individual mutate(individual newindiv) {
-        for(int i=0;i<200;i++){
-            if(Math.round(Math.random()*100)<mutationRate){
+        for(int i=0;i<5;i++){
+            if(Math.random()<mutationRate){
                 int t1= (int) Math.round(Math.random()*(noOfCities-1)),t2= (int) Math.round(Math.random()*(noOfCities-1));
                 int t3=newindiv.city[t1];
                 newindiv.city[t1]=newindiv.city[t2];
@@ -77,6 +77,10 @@ public class algorithm {
         }
         // Get the fittest
         individual fittest = tournament.getFittest();
-        return fittest;
+        //return fittest or random individual
+        if(Math.round(Math.random()*100)%10!=0)
+            return fittest;
+        else
+            return tournament.getIndividual(0);
     }
 }
