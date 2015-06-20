@@ -1,14 +1,10 @@
 package timetable;
 
-/**
- * Created by Siddharth on 18-06-2015.
- */
 public class ga {
-    //public static int noOfCities=100;
-
+    private static int noOfClasses = 4;
     public static void main(String args[]) {
 
-        population pop = new population(1000, true);
+        population pop = new population(2000, true);
 
         // Evolve our population until we reach an optimum solution
 
@@ -16,11 +12,19 @@ public class ga {
         int generationCount = 0;
         int prevValue = 0, curValue = 0;
         while (pop.getFittest().getFitness() > fitnessCalc.getMaxFitness()) {
-            //Runtime runtime = Runtime.getRuntime();
-            //runtime.gc();
             generationCount++;
             curValue = pop.getFittest().getFitness();
-            System.out.println("Generation: " + generationCount + " Fittest: " + curValue);
+            if(curValue==prevValue && algorithm.mutationRate<1.00)
+                algorithm.mutationRate+=.03f;
+            prevValue=curValue;
+            System.out.println("Generation: " + generationCount + " Fitness: " + curValue+ " Mutation Rate : "+algorithm.mutationRate);
+            /*System.out.println("Genes:");
+            for (int i = 0; i < 6; i++) {
+                for (int j = 0; j < 6; j++) {
+                    System.out.print(pop.getFittest().getGene(i, j) + " ");
+                }
+            }
+            System.out.println("");*/
             pop = algorithm.evolve(pop);
         }
         if (pop.size() < 2)

@@ -1,8 +1,7 @@
 package timetable;
 
-/**
- * Created by Siddharth on 18-06-2015.
- */
+import org.apache.commons.lang.ArrayUtils;
+
 public class population {
     individual[] individuals;
 
@@ -15,6 +14,10 @@ public class population {
                 saveindividual(i, newIndividual);
             }
         }
+    }
+    public individual[] removeIndividual(int index) {
+        individuals = (individual[]) ArrayUtils.remove(individuals, index);
+        return individuals;
     }
 
     public individual getIndividual(int index) {
@@ -32,10 +35,18 @@ public class population {
         return fittest;
     }
 
-    /*public Individual[] removeIndividual(int index){
-        individuals= (Individual[]) ArrayUtils.remove(individuals,index);
-        return individuals;
-    }*/
+    public int getFittestpos() {
+        individual fittest = individuals[0];
+        int s=0;
+        // Loop through individuals to find fittest
+        for (int i = 0; i < size(); i++) {
+            if (fittest.getFitness() >= getIndividual(i).getFitness()) {
+                fittest = getIndividual(i);s=i;
+            }
+        }
+        return s;
+    }
+
 
     // Get population size
     public int size() {

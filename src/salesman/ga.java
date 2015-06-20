@@ -65,7 +65,7 @@ public class ga {
             curValue=pop.getFittest().getFitness();
             //increasing mutation if growth stagnant
             if(curValue==prevValue)
-                algorithm.mutationRate+=.004f;
+                algorithm.mutationRate+=.006f;
             prevValue=curValue;
 
             System.out.println("Generation: " + generationCount + " Fittest: " + curValue+" Mutation Rate: "+algorithm.mutationRate);
