@@ -14,9 +14,9 @@ public class ga {
         while (pop.getFittest().getFitness() > fitnessCalc.getMaxFitness()) {
             generationCount++;
             curValue = pop.getFittest().getFitness();
-            if(curValue==prevValue && algorithm.mutationRate<1.00)
+            /*if(curValue==prevValue && algorithm.mutationRate<1.00)
                 algorithm.mutationRate+=.03f;
-            prevValue=curValue;
+            prevValue=curValue;*/
             System.out.println("Generation: " + generationCount + " Fitness: " + curValue+ " Mutation Rate : "+algorithm.mutationRate);
             /*System.out.println("Genes:");
             for (int i = 0; i < 6; i++) {

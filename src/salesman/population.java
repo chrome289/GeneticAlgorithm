@@ -1,14 +1,16 @@
 package salesman;
 
+import org.apache.commons.lang.ArrayUtils;
+
 /**
  * Created by Siddharth on 17-06-2015.
  */
 public class population {
     individual[] individuals;
 
-    public population(int pop_size,boolean intialize){
-        individuals=new individual[pop_size];
-        if(intialize){
+    public population(int pop_size, boolean intialize) {
+        individuals = new individual[pop_size];
+        if (intialize) {
             for (int i = 0; i < pop_size; i++) {
                 individual newIndividual = new individual();
                 newIndividual.generateindividual();
@@ -32,10 +34,23 @@ public class population {
         return fittest;
     }
 
-    /*public Individual[] removeIndividual(int index){
-        individuals= (Individual[]) ArrayUtils.remove(individuals,index);
+    public int getFittestpos() {
+        individual fittest = individuals[0];
+        int t = 0;
+        // Loop through individuals to find fittest
+        for (int i = 0; i < size(); i++) {
+            if (fittest.getFitness() >= getIndividual(i).getFitness()) {
+                fittest = getIndividual(i);
+                t = i;
+            }
+        }
+        return t;
+    }
+
+    public individual[] removeIndividual(int index) {
+        individuals = (individual[]) ArrayUtils.remove(individuals, index);
         return individuals;
-    }*/
+    }
 
     // Get population size
     public int size() {

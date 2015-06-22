@@ -7,7 +7,7 @@ public class algorithm {
     private static int noOfClasses = 4;
     private static int noOfBatches = 6;
     private static int noOfSubjects = 6;
-    public static float mutationRate = 0.010f;
+    public static float mutationRate = 0.015f;
 
     public static population evolve(population pop) {
         population newpop = new population(pop.size(), false);
