@@ -15,6 +15,7 @@ public class population {
             }
         }
     }
+
     public individual[] removeIndividual(int index) {
         individuals = (individual[]) ArrayUtils.remove(individuals, index);
         return individuals;
@@ -37,11 +38,12 @@ public class population {
 
     public int getFittestpos() {
         individual fittest = individuals[0];
-        int s=0;
+        int s = 0;
         // Loop through individuals to find fittest
         for (int i = 0; i < size(); i++) {
             if (fittest.getFitness() >= getIndividual(i).getFitness()) {
-                fittest = getIndividual(i);s=i;
+                fittest = getIndividual(i);
+                s = i;
             }
         }
         return s;

@@ -1,10 +1,12 @@
 package sample;
+
 /**
  * Created by Siddharth on 16-06-2015.
  */
 public class GA {
 
-    public static int dead=0;
+    public static int dead = 0;
+
     public static void main(String[] args) {
 
         // Set a candidate solution
@@ -14,17 +16,17 @@ public class GA {
 
         // Evolve our population until we reach an optimum solution
         int generationCount = 0;
-        while (myPop.getFittest().getFitness() < FitnessCalc.getMaxFitness() && myPop.size()>1) {
+        while (myPop.getFittest().getFitness() < FitnessCalc.getMaxFitness() && myPop.size() > 1) {
             generationCount++;
-            System.out.println("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness()+" Pop size "+myPop.size()+" Dead "+dead);
+            System.out.println("Generation: " + generationCount + " Fittest: " + myPop.getFittest().getFitness() + " Pop size " + myPop.size() + " Dead " + dead);
             //dead=0;
 
-            for(int i=0;i<64;i++)
+            for (int i = 0; i < 64; i++)
                 System.out.print(myPop.getFittest().getGene(i));
             System.out.println("");
             myPop = Algorithm.evolvePopulation(myPop);
         }
-        if(myPop.size()<2)
+        if (myPop.size() < 2)
             System.out.println("Everyone is dead");
         else {
             System.out.println("Solution found!");

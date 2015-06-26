@@ -6,7 +6,7 @@ package salesman;
 public class fitnessCalc {
 
 
-    private static int noOfCities = 200;
+    private static int noOfCities = 500;
     static int[][] solution = new int[noOfCities][noOfCities];
 
     /* Public methods */

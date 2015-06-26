@@ -18,7 +18,7 @@ public class FitnessCalc {
         // Loop through each character of our string and save it in our byte
         // array
         for (int i = 0; i < newSolution.length(); i++) {
-                solution[i] = newSolution.charAt(i);
+            solution[i] = newSolution.charAt(i);
         }
     }
 

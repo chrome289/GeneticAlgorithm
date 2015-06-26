@@ -4,10 +4,10 @@ public class algorithm {
 
     public static boolean elitism = true;
     public static int tournamentsize = 15;
+    public static float mutationRate = 0.015f;
     private static int noOfClasses = 4;
     private static int noOfBatches = 6;
     private static int noOfSubjects = 6;
-    public static float mutationRate = 0.015f;
 
     public static population evolve(population pop) {
         population newpop = new population(pop.size(), false);

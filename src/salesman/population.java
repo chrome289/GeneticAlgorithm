@@ -8,6 +8,7 @@ import org.apache.commons.lang.ArrayUtils;
 public class population {
     individual[] individuals;
 
+    //initialize population
     public population(int pop_size, boolean intialize) {
         individuals = new individual[pop_size];
         if (intialize) {
@@ -23,6 +24,7 @@ public class population {
         return individuals[index];
     }
 
+    //get fittest
     public individual getFittest() {
         individual fittest = individuals[0];
         // Loop through individuals to find fittest
@@ -34,6 +36,7 @@ public class population {
         return fittest;
     }
 
+    //get position of fittest
     public int getFittestpos() {
         individual fittest = individuals[0];
         int t = 0;
@@ -47,6 +50,7 @@ public class population {
         return t;
     }
 
+    //remove individual from population
     public individual[] removeIndividual(int index) {
         individuals = (individual[]) ArrayUtils.remove(individuals, index);
         return individuals;

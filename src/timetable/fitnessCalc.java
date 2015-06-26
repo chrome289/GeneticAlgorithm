@@ -6,15 +6,15 @@ public class fitnessCalc {
 
     private static int noOfClasses = 4;
     private static int noOfBatches = 6;
-    private static int noOfSubjects =6;
+    private static int noOfSubjects = 6;
 
     public static int getFitness(individual individual) {
-        int fitness=0;
-        HashSet<Character> s= new HashSet<>();
-        for(int i=0;i<6;i++){
-            for(int j=0;j<6;j++){
-                for(int k=0;k<noOfClasses*3;k=k+3){
-                    if(!s.add(individual.schedule[i][j].charAt(k)))
+        int fitness = 0;
+        HashSet<Character> s = new HashSet<>();
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                for (int k = 0; k < noOfClasses * 3; k = k + 3) {
+                    if (!s.add(individual.schedule[i][j].charAt(k)))
                         fitness++;
                 }
                 s.clear();
@@ -24,13 +24,17 @@ public class fitnessCalc {
     }
 
     public static int[][] getDetailedFitness(individual individual) {
-        int [][]fitness=new int [600][2];int x=0;
-        HashSet<Character> s= new HashSet<>();
-        for(int i=0;i<6;i++){
-            for(int j=0;j<6;j++){
-                for(int k=0;k<noOfClasses*3;k=k+3) {
+        int[][] fitness = new int[600][2];
+        int x = 0;
+        HashSet<Character> s = new HashSet<>();
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 6; j++) {
+                for (int k = 0; k < noOfClasses * 3; k = k + 3) {
                     if (!s.add(individual.schedule[i][j].charAt(k))) {
-                        fitness[x][0] = i;fitness[x][1]=j;x++;break;
+                        fitness[x][0] = i;
+                        fitness[x][1] = j;
+                        x++;
+                        break;
                     }
                 }
                 s.clear();
@@ -54,8 +58,7 @@ public class fitnessCalc {
                             t1 = t3 - prev;
                         }
                         cur = 0;
-                    }
-                    else
+                    } else
                         cur++;
                 }
 
@@ -69,7 +72,7 @@ public class fitnessCalc {
 
     // Get optimum fitness
     static int getMaxFitness() {
-        int maxFitness=0;
+        int maxFitness = 0;
         return maxFitness;
     }
 }

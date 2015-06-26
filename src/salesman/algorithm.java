@@ -8,7 +8,7 @@ public class algorithm extends Thread {
     public static boolean elitism = true;
     public static int tournamentsize = 30;
     public static float mutationRate = 0.015f;
-    private static int noOfCities = 200;
+    private static int noOfCities = 500;
     public int low, high;
     public population pop1, pop2;
 
@@ -19,11 +19,13 @@ public class algorithm extends Thread {
     }
 
     public static population evolve(population pop) throws InterruptedException {
-        population newpop = new population(10000, false);
+        population newpop = new population(600, false);
 
         //keep fittest
         if (elitism)
             newpop.saveindividual(0, pop.getFittest());
+
+        //make 6 threads , divide population among them and evolve
         algorithm t1 = new algorithm(0, pop.size() / 5, pop);
         t1.setName("thread 1");
         t1.setPriority(10);
@@ -54,18 +56,28 @@ public class algorithm extends Thread {
         Thread u5 = new Thread(t5);
         u5.start();
 
+        algorithm t6 = new algorithm(0, pop.size() / 6, pop);
+        t5.setName("thread 6");
+        t5.setPriority(10);
+        Thread u6 = new Thread(t6);
+        u6.start();
+
+        //wait for all to finish
         u1.join();
         u2.join();
         u3.join();
         u4.join();
         u5.join();
-        newpop = combine(t1.pop2, t2.pop2, t3.pop2, t4.pop2, t5.pop2);
+        u6.join();
+        //combine all 6 sub population
+        newpop = combine(t1.pop2, t2.pop2, t3.pop2, t4.pop2, t5.pop2,t5.pop2);
 
 
         //System.out.println(newpop.size());
         return newpop;
     }
 
+    //cause mutation -- don't increase mutation rate
     private static individual mutate(individual newindiv) {
         for (int i = 0; i < 20; i++) {
             if (Math.random() < mutationRate) {
@@ -78,74 +90,51 @@ public class algorithm extends Thread {
         return newindiv;
     }
 
-    private static individual[] crossover(individual indiv1, individual indiv2) {
-        individual []indiv3 = new individual[2];
-        indiv3[0]=new individual();indiv3[1]=new individual();
+    //crossover between parents
+    private static individual crossover(individual indiv1, individual indiv2) {
+        individual indiv3 = new individual();
 
-        int []k=new int[noOfCities];
-        indiv3[0].city[0]=indiv1.city[0];k[indiv1.city[0]]=1;
-        for(int i=1;i<noOfCities;i++) {
+        int[] k = new int[noOfCities];
+        //copy first node of parent1 and mark visited
+        indiv3.city[0] = indiv1.city[0];
+        k[indiv1.city[0]] = 1;
+
+        for (int i = 1; i < noOfCities; i++) {
             int x1 = 0, x2 = 0;
+            //get next node on both parent
             for (int j = 0; j < noOfCities - 1; j++) {                  //get next node on both parents
-                if (indiv1.city[j] == indiv3[0].city[i - 1])
+                if (indiv1.city[j] == indiv3.city[i - 1])
                     x1 = indiv1.city[j + 1];
-                if (indiv2.city[j] == indiv3[0].city[i - 1])
+                if (indiv2.city[j] == indiv3.city[i - 1])
                     x2 = indiv2.city[j + 1];
             }
-            if (ga.t[indiv3[0].city[i - 1]][x1] < ga.t[indiv3[0].city[i - 1]][x2] && k[x1] == 0 && ga.t[indiv3[0].city[i - 1]][x1] != 0) {
-                indiv3[0].city[i] = x1;
+            //visit the closest of the two
+            if (ga.t[indiv3.city[i - 1]][x1] < ga.t[indiv3.city[i - 1]][x2] && k[x1] == 0 && ga.t[indiv3.city[i - 1]][x1] != 0) {
+                indiv3.city[i] = x1;
                 k[x1] = 1;
-            } else if (ga.t[indiv3[0].city[i - 1]][x2] < ga.t[indiv3[0].city[i - 1]][x1] && k[x2] == 0 && ga.t[indiv3[0].city[i - 1]][x2] != 0) {
-                indiv3[0].city[i] = x2;
+            } else if (ga.t[indiv3.city[i - 1]][x2] < ga.t[indiv3.city[i - 1]][x1] && k[x2] == 0 && ga.t[indiv3.city[i - 1]][x2] != 0) {
+                indiv3.city[i] = x2;
                 k[x2] = 1;
-            } else if (k[x1] == 0 && ga.t[indiv3[0].city[i - 1]][x1] != 0) {
-                indiv3[0].city[i] = x1;
+            } else if (k[x1] == 0 && ga.t[indiv3.city[i - 1]][x1] != 0) {
+                indiv3.city[i] = x1;
                 k[x1] = 1;
-            } else if (k[x2] == 0 && ga.t[indiv3[0].city[i - 1]][x2] != 0) {
-                indiv3[0].city[i] = x2;
+            } else if (k[x2] == 0 && ga.t[indiv3.city[i - 1]][x2] != 0) {
+                indiv3.city[i] = x2;
                 k[x2] = 1;
-            } else {
+            } else {//both visited so choose a first unvisited city
                 for (int x = 0; x < noOfCities; x++) {
                     if (k[x] == 0) {
-                        indiv3[0].city[i] = x;
+                        indiv3.city[i] = x;
                         k[x] = 1;
                         break;
                     }
                 }
             }
         }
-
-
-       /* k=new int[noOfCities];
-        indiv3[1].city[0]=indiv2.city[0];k[indiv2.city[0]]=1;
-        for(int i=1;i<noOfCities;i++) {
-            int x1 = 0, x2 = 0;
-            for (int j = 0; j < noOfCities-1; j++) {                  //get next node on both parents
-
-                if (indiv1.city[j] == indiv3[1].city[i - 1])
-                    x1 = indiv1.city[j + 1];
-                if (indiv2.city[j] == indiv3[1].city[i - 1])
-                    x2 = indiv2.city[j + 1];
-            }
-            if (ga.t[indiv3[1].city[i - 1]][x1] < ga.t[indiv3[1].city[i - 1]][x2] && k[x1] == 0 && ga.t[indiv3[1].city[i - 1]][x1] != 0) {
-                indiv3[1].city[i] = x1;
-                k[x1] = 1;
-            } else if (ga.t[indiv3[1].city[i - 1]][x2] < ga.t[indiv3[1].city[i - 1]][x1] && k[x2] == 0 && ga.t[indiv3[1].city[i - 1]][x2] != 0) {
-                indiv3[1].city[i] = x2;
-                k[x2] = 1;
-            } else {
-                for (int x = 0; x < noOfCities; x++) {
-                    if (k[x] == 0) {
-                        indiv3[1].city[i] = x;
-                        k[x] = 1;
-                        break;
-                    }
-                }
-            }
-        }*/
         return indiv3;
     }
 
+    //tournament for parent selection
     private static individual selection(population pop) {
         population tournament = new population(tournamentsize, false);
         // For each place in the tournament get a random individual
@@ -162,8 +151,9 @@ public class algorithm extends Thread {
             return tournament.getIndividual(0);
     }
 
-    private static population combine(population p1, population p2, population p3, population p4, population p11) {
-        population p5 = new population(500, false);
+    //combine sub population
+    private static population combine(population p1, population p2, population p3, population p4, population p11,population p6) {
+        population p5 = new population(600, false);
         int t1 = 0, t2, t3, t4;
         t2 = p1.size();
         t3 = p1.size() * 2;
@@ -174,24 +164,24 @@ public class algorithm extends Thread {
             p5.saveindividual(t3 + i, p3.getIndividual(i));
             p5.saveindividual(t4 + i, p4.getIndividual(i));
             p5.saveindividual(t4 + i + t2, p11.getIndividual(i));
+            p5.saveindividual(t4 + i + t3, p6.getIndividual(i));
 
         }
         return p5;
     }
 
+    //thread run method
     public void run() {
-        pop2 = new population(pop1.size() / 5, false);
-        for (int i = 0; i < pop1.size() / 5; i=i+1) {
+        pop2 = new population(pop1.size() / 6, false);
+        for (int i = 0; i < pop1.size() / 6; i = i + 1) {
 
             individual indiv1 = selection(pop1);
             individual indiv2 = selection(pop1);
-            individual []newindiv = crossover(indiv1, indiv2);
+            individual newindiv = crossover(indiv1, indiv2);
 
-            newindiv[0] = mutate(newindiv[0]);
-            pop2.saveindividual(i, newindiv[0]);
+            newindiv = mutate(newindiv);
+            pop2.saveindividual(i, newindiv);
 
-            //newindiv[1] = mutate(newindiv[1]);
-            //pop2.saveindividual(i+1, newindiv[1]);
         }
     }
 }
