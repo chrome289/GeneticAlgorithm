@@ -4,9 +4,8 @@ package salesman;
  * Created by Siddharth on 17-06-415.
  */
 public class individual {
-    private static int noOfCities = 500;
-    public static int route_length = noOfCities;
-    public int[] city = new int[noOfCities];
+    public static int route_length = ga.noOfCities;
+    public int[] city = new int[ga.noOfCities];
     public int fitness = 0;
 
     public static void setDefaultGeneLength(int length) {
@@ -15,15 +14,15 @@ public class individual {
 
     //generate individual
     public void generateindividual() {
-        for (int i = 0; i < noOfCities; i++)
+        for (int i = 0; i < ga.noOfCities; i++)
             city[i] = i;
         //randomize its genes
-        for (int i = 0; i < 50; i++) {
-            if (Math.round(Math.random() * 10.0) > 5) {
-                int t3 = this.city[i];
-                this.city[i] = city[i + 1];
-                this.city[i + 1] = t3;
-            }
+        for (int i = 0; i < 500; i++) {
+            int t1 = (int) (Math.random() * (ga.noOfCities - 1));
+            int t2 = (int) (Math.random() * (ga.noOfCities - 1));
+            int t3 = this.city[t1];
+            this.city[t1] = city[t2];
+            this.city[t2] = t3;
         }
     }
 
@@ -31,7 +30,7 @@ public class individual {
         return city[index];
     }
 
-    public void setGene(int index, char value) {
+    public void setGene(int index, int value) {
         city[index] = value;
         fitness = 0;
     }

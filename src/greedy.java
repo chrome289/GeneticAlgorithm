@@ -6,21 +6,24 @@ import java.util.Scanner;
  * Created by Siddharth on 21-06-2015.
  */
 public class greedy {
-    private static int noOfCities = 500;
+    private static int noOfCities = 100;
 
     public static void main(String args[]) throws IOException {
         int[][] t = new int[noOfCities][noOfCities];
         int[] r = new int[noOfCities];
         int fitness = 0, cur = 0, next = 0;
-        File file = new File("d:/filename.txt");
+        File file = new File("d:/kroA100.tsp");
         int[][] coor = new int[noOfCities][2];
         Scanner scanner = new Scanner(file);
+        for (int t1 = 0; t1 < 6; t1++) {
+            String line = scanner.nextLine();
+        }
         for (int i = 0; i < noOfCities; i++) {
             if (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] s = line.split(" ");
-                coor[i][0] = Integer.parseInt(s[0]);
-                coor[i][1] = Integer.parseInt(s[1]);
+                coor[i][0] = Integer.parseInt(s[1]);
+                coor[i][1] = Integer.parseInt(s[2]);
             }
         }
 

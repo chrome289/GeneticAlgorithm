@@ -5,13 +5,11 @@ package salesman;
  */
 public class fitnessCalc {
 
-
-    private static int noOfCities = 500;
-    static int[][] solution = new int[noOfCities][noOfCities];
+    static double[][] solution = new double[ga.noOfCities][ga.noOfCities];
 
     /* Public methods */
     // Set a candidate solution as a byte array
-    public static void setSolution(int[][] newSolution) {
+    public static void setSolution(double[][] newSolution) {
         solution = newSolution;
     }
 
@@ -27,7 +25,7 @@ public class fitnessCalc {
     }*/
     public static int getFitness(individual individual) {
         int fitness = 0;
-        for (int i = 0; i < (noOfCities - 1); i++) {
+        for (int i = 0; i < (ga.noOfCities - 1); i++) {
             fitness += solution[individual.city[i]][individual.city[i + 1]];
         }
         return fitness;
